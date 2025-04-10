@@ -24,6 +24,7 @@ classifiers = [
 ]
 keywords = ["maestro", "mobile", "testing", "automation", "mcp"]
 dependencies = [
+    "uv",
     "mcp[cli]>=1.6.0",
     "requests"
 ]

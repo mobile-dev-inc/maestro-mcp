@@ -5,9 +5,9 @@ from maestro_mcp.maestro_cli import MaestroCli
 @pytest.fixture
 def maestro_cli():
     return MaestroCli(
-        api_key="rb_3zphevioO3GOx2iU8LRhYvC60mGAPDm90vBWEg5y9LuTgoWeuuPMc60kt4bKxKUCFxmm2fgzoH0nCUXZFxIzkvGKCh5NJAOecm2",
-        maestro_binary_path="/Users/herval/dev/mobiledev/maestro/maestro-cli/build/install/maestro/bin/maestro",
-        api_server="http://localhost:8080"
+        api_key=os.environ.get("MAESTRO_API_KEY", None),
+        maestro_binary_path=os.environ.get("MAESTRO_BINARY_PATH", None),
+        api_server=os.environ.get("MAESTRO_API_SERVER", "https://api.copilot.mobile.dev"),
     )
 
 
