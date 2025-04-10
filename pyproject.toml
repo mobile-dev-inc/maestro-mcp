@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "maestro-mcp"
+version = "0.1.0"
+description = "The Official Maestro MCP for Claude Desktop, Cursor and other MCP clients."
+authors = [
+    {name = "herval", email = "hervalfreire@gmail.com"},
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: Acceptance",
+    "Topic :: Software Development :: Quality Assurance",
+]
+keywords = ["maestro", "mobile", "testing", "automation", "mcp"]
+dependencies = [
+    "mcp[cli]>=1.6.0",
+    "requests"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "build",
+    "twine",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/mobile-dev-inc/maestro-mcp"
+"Bug Tracker" = "https://github.com/mobile-dev-inc/maestro-mcp/issues"
+"Documentation" = "https://docs.maestro.dev"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/maestro_mcp"]
+
+[project.scripts]
+maestro-mcp = "maestro_mcp.cli:mcp.run"
