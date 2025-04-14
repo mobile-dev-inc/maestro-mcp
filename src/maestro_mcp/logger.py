@@ -24,12 +24,7 @@ class Logger:
             # Create formatter
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             
-            # Create console handler
-            console_handler = logging.StreamHandler(sys.stdout)
-            console_handler.setLevel(logging.INFO)
-            console_handler.setFormatter(formatter)
-            
-            # Create file handler
+            # Create file handler only (no console handler)
             log_dir = os.path.expanduser("~/.maestro")
             os.makedirs(log_dir, exist_ok=True)  # Ensure directory exists
             log_file = os.path.join(log_dir, "mcp.log")
@@ -37,8 +32,7 @@ class Logger:
             file_handler.setLevel(logging.INFO)
             file_handler.setFormatter(formatter)
             
-            # Add handlers to logger
-            self.logger.addHandler(console_handler)
+            # Add handler to logger
             self.logger.addHandler(file_handler)
     
     def info(self, message: str, *args, **kwargs):

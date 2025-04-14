@@ -49,6 +49,7 @@ def cheat_sheet() -> str:
     try:
         return cli.cheat_sheet()
     except Exception as e:
+        logger.error(e.__str__())
         return "Could not retrieve cheat sheet: " + e.__str__()
 
 
@@ -84,6 +85,7 @@ def run_code(ctx: Context, flow_script: str):
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
 
     try:
+        logger.info(f"Executing code:\n\n{flow_script}")
         ctx.info(f"Executing code:\n\n{flow_script}")
         res = cli.run_code(flow_script)
         try:
@@ -128,6 +130,7 @@ def run_flow_files(ctx: Context, flowFiles: str) -> str:
 
         return res
     except Exception as e:
+        logger.error(e.__str__())
         ctx.error(e.__str__())
         try:
             curr_hierarchy = cli.get_hierarchy()
@@ -155,11 +158,13 @@ def start_device(ctx: Context, os: str, platform: str) -> str:
     :return:
     """
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
+    logger.info(f"Starting {platform} {os} device...")
     ctx.info(f"Starting {platform} {os} device...")
 
     try:
         return cli.start_device(os, platform)
     except Exception as e:
+        logger.error(e.__str__())
         ctx.error(e.__str__())
         raise e
 
@@ -172,10 +177,13 @@ def get_hierarchy(ctx: Context) -> str:
     :return: a JSON of the full view hierarchy of the current screen on the device
     """
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
+    logger.info("Getting view hierarchy...")
+    ctx.info("Getting view hierarchy...")
 
     try:
         return cli.get_hierarchy()
     except Exception as e:
+        logger.error(e.__str__())
         ctx.error(e.__str__())
         raise e
 
@@ -191,12 +199,13 @@ def query_docs(ctx: Context, query: str) -> str:
     :return: responses according to the official documentation
     """
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
-
+    logger.info(f"Querying docs for '{query}'...")
     ctx.info(f"Querying docs for '{query}'...")
 
     try:
         return cli.query_docs("Search the Maestro documentation to answer the following question: " + query)
     except Exception as e:
+        logger.error(e.__str__())
         ctx.error(e.__str__())
         raise e
 
@@ -213,10 +222,12 @@ def check_syntax(ctx: Context, code: str) -> str:
     """
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
     logger.info("Checking syntax for %s", code)
+    ctx.info("Checking syntax for %s", code)
 
     try:
         return cli.check_syntax(code)
     except Exception as e:
+        logger.error(e.__str__())
         ctx.error(e.__str__())
         raise e
 

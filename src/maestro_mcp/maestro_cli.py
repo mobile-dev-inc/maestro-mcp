@@ -20,7 +20,11 @@ class MaestroCli:
         try:
             self.maestro_binary_path = maestro_binary_path or shutil.which("maestro")
             if self.maestro_binary_path is None or not self.maestro_binary_path:
-                logger.info("maestro binary not found in path!")
+                if os.path.exists(os.path.join(os.path.expanduser("~/.maestro"), "bin", "maestro")):
+                    self.maestro_binary_path = os.path.join(os.path.expanduser("~/.maestro"), "maestro")
+                    logger.info("maestro binary found at default location %s", self.maestro_binary_path)
+                else:
+                    logger.info("maestro binary not found in path!")
             else:
                 logger.info("maestro binary found at %s", self.maestro_binary_path)
         except Exception as e:
