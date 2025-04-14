@@ -5,9 +5,9 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
 from mcp.server.fastmcp import Context, FastMCP
-from mcp.server.fastmcp.utilities.logging import get_logger
+from logger import get_logger
 
-from maestro_mcp.maestro_cli import MaestroCli
+from maestro_cli import MaestroCli
 
 logger = get_logger("maestro_mcp")
 

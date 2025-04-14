@@ -47,7 +47,7 @@ Include the following on Claude's config file:
         "<full path to maestro_mcp/cli.py>"
       ],
       "env": {
-        "MAESTRO_BINARY_PATH": "<path to the maestro executable - usually ~/.maestro/bin/maestro>"
+        "MAESTRO_BINARY_PATH": "<path to the maestro executable - usually ~/.maestro/bin/maestro>",
         "MAESTRO_API_KEY": "<your maestro api key - you can get this from your maestro.dev account. It'll be automatically looked up after you run `maestro login`>"
       }
     }

@@ -2,7 +2,7 @@ import os.path
 import shutil
 import subprocess
 import tempfile
-from mcp.server.fastmcp.utilities.logging import get_logger
+from logger import get_logger
 import requests
 
 logger = get_logger("maestro_cli")
