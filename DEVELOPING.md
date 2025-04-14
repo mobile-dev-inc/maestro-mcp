@@ -44,7 +44,7 @@ Include the following on Claude's config file:
         "requests",
         "mcp",
         "run",
-        "<full path to maestro_mcp/cli.py>"
+        "<full path to mcp.py>"
       ],
       "env": {
         "MAESTRO_BINARY_PATH": "<path to the maestro executable - usually ~/.maestro/bin/maestro>",
@@ -58,5 +58,22 @@ Include the following on Claude's config file:
 Install locally with:
 
 ```
- uv run --with "mcp[cli]" mcp install -v MAESTRO_API_KEY="<your api key>" -v MAESTRO_BINARY_PATH="~/.maestro/bin/maestro" src/maestro_mcp/cli.py
+ uv run --with "mcp[cli]" mcp install -v MAESTRO_API_KEY="<your api key>" -v MAESTRO_BINARY_PATH="~/.maestro/bin/maestro" mcp.py
 ```
+
+### Building locally
+
+To build the MCP, run:
+
+```bash
+rf -rf dist/
+uv build
+```
+
+Install the local build with:
+
+```bash
+pip uninstall -y maestro-mcp
+pip install dist/*.whl
+```
+

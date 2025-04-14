@@ -2,8 +2,8 @@ import os.path
 import shutil
 import subprocess
 import tempfile
-from logger import get_logger
 import requests
+from .logger import get_logger
 
 logger = get_logger("maestro_cli")
 
