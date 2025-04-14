@@ -44,7 +44,9 @@ class MaestroCli:
 
     def _respond(self, res) -> str:
         if res.stderr:
+            logger.error(res.stderr)
             raise Exception(res.stderr)
+        logger.info(res.stdout)
         return res.stdout.strip()
 
     def _check_cli(self):
