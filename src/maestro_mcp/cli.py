@@ -77,6 +77,8 @@ def run_code(ctx: Context, flow_script: str):
 
     If this fails due to no device running, please ask the user to start a device!
 
+    If you don't have an up-to-date view hierarchy or screenshot on which to execute the commands, please call get_hierarchy first, instead of blindly guessing.
+
     *** You don't need to call check_syntax before executing this, as syntax will be checked as part of the execution flow. ***
 
     :param flow_script: a maestro flow as a string.
