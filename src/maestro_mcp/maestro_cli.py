@@ -26,6 +26,7 @@ class MaestroCli:
                 else:
                     logger.info("maestro binary not found in path!")
             else:
+                self.maestro_binary_path = os.path.abspath(os.path.expanduser(self.maestro_binary_path))
                 logger.info("maestro binary found at %s", self.maestro_binary_path)
         except Exception as e:
             logger.error("maestro binary not found in path - %s", e)
