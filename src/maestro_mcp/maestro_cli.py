@@ -108,7 +108,7 @@ class MaestroCli:
 
             # shell out to maestro cli
             res = subprocess.run(
-                [self.maestro_binary_path, "test", f.name, "--reinstall-driver=false"],
+                [self.maestro_binary_path, "test", "--reinstall-driver=false", f.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -121,7 +121,7 @@ class MaestroCli:
         self._check_cli()
 
         res = subprocess.run(
-            [self.maestro_binary_path, "test", flow_files, "--reinstall-driver=false"],
+            [self.maestro_binary_path, "test", "--reinstall-driver=false", flow_files],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
