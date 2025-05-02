@@ -2,6 +2,7 @@ import os.path
 import shutil
 import subprocess
 import tempfile
+import textwrap
 import requests
 from .logger import get_logger
 
@@ -77,9 +78,15 @@ class MaestroCli:
 
             return self._respond(res)
 
-    def run_code(self, code) -> str:
+    def _format(self, code):
+        # remove empty lines and dedent (remove common leading whitespace)
+        filtered_lines = [line for line in code.split("\n") if line.strip()]
+        code = textwrap.dedent("\n".join(filtered_lines))
+
         if "---" not in code:  # no header present
             code = "appId: any\n---\n" + code
+        elif code.index("---") == 0:
+            code = "appId: any\n" + code
 
         lines = code.split("\n")
         header_index = lines.index("---")
@@ -97,7 +104,10 @@ class MaestroCli:
                 processed_commands.append(line)
 
         code = "\n".join(header + processed_commands)
+        return code
 
+    def run_code(self, code) -> str:
+        code = self._format(code)
         sc = self.check_syntax(code)
         if sc != 'OK':
             return sc
@@ -108,7 +118,7 @@ class MaestroCli:
 
             # shell out to maestro cli
             res = subprocess.run(
-                [self.maestro_binary_path, "test", "--reinstall-driver=false", f.name],
+                [self.maestro_binary_path, "test", f.name],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
@@ -121,7 +131,7 @@ class MaestroCli:
         self._check_cli()
 
         res = subprocess.run(
-            [self.maestro_binary_path, "test", "--reinstall-driver=false", flow_files],
+            [self.maestro_binary_path, "test", flow_files],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -133,7 +143,7 @@ class MaestroCli:
     def get_hierarchy(self) -> str:
         self._check_cli()
         res = subprocess.run(
-            [self.maestro_binary_path, "hierarchy", "--reinstall-driver=false", "--compact=true"],
+            [self.maestro_binary_path, "hierarchy", "--compact=true", "--device-index=0"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,

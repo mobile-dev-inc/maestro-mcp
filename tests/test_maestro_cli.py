@@ -1,5 +1,12 @@
+import os
+import sys
 import pytest
-from maestro_mcp.maestro_cli import MaestroCli
+
+# Add src directory directly to path for imports
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Direct import from the src directory
+from src.maestro_mcp.maestro_cli import MaestroCli
 
 
 @pytest.fixture
@@ -34,7 +41,7 @@ def test_maestro_cli_check_syntax(maestro_cli):
         maestro_cli.check_syntax("""
         tapO n: "123"
         """)
-        assert False # should fail
+        assert False  # should fail
     except Exception as e:
         print(e)
         assert e.__str__().index("Did you mean `tapOn`?") != -1
@@ -44,3 +51,25 @@ def test_maestro_cli_check_syntax(maestro_cli):
     """)
     print(res)
     assert res == "OK"
+
+
+def test_code_formatting(maestro_cli):
+    c = maestro_cli._format("""
+    tapOn:
+        text: Search Wikipedia
+    """)
+    assert c == """appId: any
+---
+- tapOn:
+    text: Search Wikipedia"""
+
+    c = maestro_cli._format("""
+    ---
+    tapOn:
+        text: Search Wikipedia
+    """)
+    assert c == """appId: any
+---
+- tapOn:
+    text: Search Wikipedia"""
+
