@@ -73,13 +73,36 @@ def get_cheat_sheet(ctx: Context) -> str:
 @mcp.tool()
 def run_code(ctx: Context, flow_script: str):
     """
-    Run a set of Maestro commands (one or more). This can be a full maestro script (including headers), a set of commands (one per line) or simply a single command (eg 'tapOn: 123').
+    Run a set of Maestro commands (one or more). This can be a full maestro script (including headers), a set of commands (one per line) or simply a single command (eg '- tapOn: 123').
 
     If this fails due to no device running, please ask the user to start a device!
 
     If you don't have an up-to-date view hierarchy or screenshot on which to execute the commands, please call get_hierarchy first, instead of blindly guessing.
 
     *** You don't need to call check_syntax before executing this, as syntax will be checked as part of the execution flow. ***
+
+    Use the `get_hierarchy` tool to retrieve the current view hierarchy and use it to execute commands on the device.
+    Use the `cheat_sheet` tool to retrieve a summary of Maestro's syntax before using any of the other tools.
+
+    Examples of valid inputs:
+    ```
+    - tapOn: 123
+    ```
+
+    ```
+    appId: any
+    ---
+    - tapOn: 123
+    ```
+
+    ```
+    appId: any
+    # other headers here
+    ---
+    - tapOn: 456
+    - scroll
+    # other commands here
+    ```
 
     :param flow_script: a maestro flow as a string.
     :return:
@@ -113,7 +136,14 @@ def run_flow_files(ctx: Context, flowFiles: str) -> str:
 
     If this fails due to no device running, please ask the user to start a device!
 
-    :param flowFiles: a space-separated list of one or more flow files to test. e.g. "flowFile1.yml flowFile2.yml". Please provide the full path to the files.
+    Use the `cheat_sheet` tool to retrieve a summary of Maestro's syntax before writing any code.
+
+    :param flowFiles: a space-delimited list of one or more flow files to test. e.g. "/path/to/flowFile1.yml /path/to/flowFile2.yml". 
+    
+    **Please provide the full path to the files**. 
+    
+    If there are spaces in the path, please enclose the path in quotes.
+    
     :return: result of the flow execution
     """
     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
@@ -148,27 +178,27 @@ def run_flow_files(ctx: Context, flowFiles: str) -> str:
         raise e
 
 
-@mcp.tool()
-def start_device(ctx: Context, os: str, platform: str) -> str:
-    """
-    Start a device for testing.
+# @mcp.tool()
+# def start_device(ctx: Context, os: str, platform: str) -> str:
+#     """
+#     Start a device for testing.
 
-    DO NOT USE THIS FUNCTION UNLESS THE USER EXPLICITLY REQUESTS IT.
+#     DO NOT USE THIS FUNCTION UNLESS THE USER EXPLICITLY REQUESTS IT.
 
-    :param os: the OS of the device. Supported values for iOS: 16, 17 or 18. Supported values for Android: 28, 29, 30, 31, 33
-    :param platform: the platform of the device. Supported values: android, ios
-    :return:
-    """
-    cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
-    logger.info(f"Starting {platform} {os} device...")
-    ctx.info(f"Starting {platform} {os} device...")
+#     :param os: the OS of the device. Supported values for iOS: 16, 17 or 18. Supported values for Android: 28, 29, 30, 31, 33
+#     :param platform: the platform of the device. Supported values: android, ios
+#     :return:
+#     """
+#     cli: MaestroCli = ctx.request_context.lifespan_context.maestro_cli
+#     logger.info(f"Starting {platform} {os} device...")
+#     ctx.info(f"Starting {platform} {os} device...")
 
-    try:
-        return cli.start_device(os, platform)
-    except Exception as e:
-        logger.error(e.__str__())
-        ctx.error(e.__str__())
-        raise e
+#     try:
+#         return cli.start_device(os, platform)
+#     except Exception as e:
+#         logger.error(e.__str__())
+#         ctx.error(e.__str__())
+#         raise e
 
 
 @mcp.tool()
