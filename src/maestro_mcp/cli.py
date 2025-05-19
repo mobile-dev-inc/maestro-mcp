@@ -73,6 +73,10 @@ def get_cheat_sheet(ctx: Context) -> str:
 @mcp.tool()
 def run_code(ctx: Context, flow_script: str):
     """
+    Use this when interacting with a device and running adhoc commands, preferably one at a time.
+
+    Whenever you're exploring an app, testing out commands or debugging, prefer using this tool over creating temp files and using run_flow_files.
+
     Run a set of Maestro commands (one or more). This can be a full maestro script (including headers), a set of commands (one per line) or simply a single command (eg '- tapOn: 123').
 
     If this fails due to no device running, please ask the user to start a device!
@@ -205,6 +209,10 @@ def run_flow_files(ctx: Context, flowFiles: str) -> str:
 def get_hierarchy(ctx: Context) -> str:
     """
     Retrieves the view hierarchy of the currently visible screen.
+
+    Use this to get a full view of what's currently visible on the device.
+
+    You can use this to get names of parameters before writing code, debugging or when you're not sure what to do next.
 
     :return: a JSON of the full view hierarchy of the current screen on the device
     """
